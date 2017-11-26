@@ -1,0 +1,44 @@
+﻿@model List<TobeyExamination.Models.Employee>
+@{
+    ViewBag.Title = "員工基本資料查詢";
+}
+
+<h2>員工基本資料</h2>
+
+@if (Model.Any())
+{
+    <div>
+        <span>Detail</span>
+        <table style="border:1px #cccccc solid;"border='1'>
+            <thead>
+                <tr style="background:#808080">
+                    <td></td>
+                    <td>名字</td>
+                    <td>英文名字</td>
+                    <td>建立者</td>
+                    <td>建立時間</td>
+                    <td>更新者</td>
+                    <td>更新時間</td>
+                    @*<td>修改</td>*@
+                </tr>
+            </thead>
+            <tbody>
+                @{int index = 1;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>index</td>
+                        <td>@item.Name</td>
+                        <td>@item.EnName</td>
+                        <td>@item.CreateBy</td>
+                        <td>@item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                        <td>@item.UpdateBy</td>
+                        <td>@if (item.UpdateTime.HasValue) { item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss"); }</td>
+                        @*<td><a href="@Url.Action("","",new { Id = item.Id})">修改</a></td>*@
+                    </tr>
+                    index++;
+                }
+            </tbody>
+        </table>
+    </div>
+}
