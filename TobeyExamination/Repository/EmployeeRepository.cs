@@ -49,7 +49,7 @@ namespace TobeyExamination.Models.Repository
             }
         }
 
-        public static EmployeeModel GetEmployeesById(string Id)
+        public static EmployeeModel GetEmployeesById(int Id)
         {
             try
             {
@@ -83,18 +83,30 @@ namespace TobeyExamination.Models.Repository
             catch (Exception ex)
             {
                 return new EmployeeModel();
-                throw;
             }
         }
 
-        public static EmployeeModel GetEmployeesByName(string Name)
+        public static EmployeeModel GetEmployeesByName(string Name ,int Id=0)
         {
             try
             {
                 #region 參數
                 string sqlQuery = String.Empty;
+                string sqlWhere = String.Empty;
                 DynamicParameters sqlparam = new DynamicParameters();
-                sqlparam.Add("Name", Name);
+                if (!String.IsNullOrWhiteSpace(Name))
+                {
+                    sqlparam.Add("Name", Name.Trim());
+                    sqlWhere = " Where Name = @Name";
+                }
+
+                //更新判斷除了本身之外的Name是否重複
+                if (Id!=0)
+                {
+                    sqlparam.Add("Id", Id);
+                    sqlWhere += " AND Id <> @Id";
+                }
+
                 #endregion
 
                 #region SQL 語法
@@ -107,21 +119,20 @@ namespace TobeyExamination.Models.Repository
                                         ,CreateTime 
                                         ,UpdateBy 
                                         ,UpdateTime 
-                                  From Employee 
-                                  Where Name = @Name";
+                                  From Employee ";
+                
                 #endregion
 
                 #region SQL 查詢
                 using (SqlConnection conn = new SqlConnection(strConn))
                 {
-                    return conn.Query<EmployeeModel>(sqlQuery, sqlparam).FirstOrDefault();
+                    return conn.Query<EmployeeModel>(sqlQuery + sqlWhere, sqlparam).FirstOrDefault();
                 }
                 #endregion
             }
             catch (Exception ex)
             {
                 return new EmployeeModel();
-                throw;
             }
         }
 
@@ -136,12 +147,11 @@ namespace TobeyExamination.Models.Repository
             {
                 #region 參數
                 string sqlQuery = String.Empty;
-                string sqlWhere = String.Empty;
                 DynamicParameters sqlparam = new DynamicParameters();
-                sqlparam.Add("Name", param.Name);
+                sqlparam.Add("Name", param.Name.Trim());
                 if (!String.IsNullOrWhiteSpace(param.EnName))
                 {
-                    sqlparam.Add("EnName", param.EnName);
+                    sqlparam.Add("EnName", param.EnName.Trim());
                 }
                 else
                 {
@@ -179,11 +189,56 @@ namespace TobeyExamination.Models.Repository
             catch (Exception ex)
             {
                 result = false;
-                throw;
             }
             return result;
         }
 
+        #endregion
+
+        #region 更新
+
+        public static bool UpdEmployee(UpdEmployeeViewModel param)
+        {
+            bool result = true;
+            try
+            {
+                #region 參數
+                string sqlQuery = String.Empty;
+                DynamicParameters sqlparam = new DynamicParameters();
+                sqlparam.Add("Id", param.Id);
+                sqlparam.Add("Name", param.Name.Trim());
+                if (!String.IsNullOrWhiteSpace(param.EnName))
+                {
+                    sqlparam.Add("EnName", param.EnName.Trim());
+                }
+                else
+                {
+                    sqlparam.Add("EnName", null);
+                }
+                #endregion
+
+                #region SQL 語法
+
+                sqlQuery = @"
+                            UPDATE Employee
+                            SET Name = @Name , EnName = @EnName 
+                            Where Id =@Id";
+                #endregion
+
+                #region SQL 查詢
+                using (SqlConnection conn = new SqlConnection(strConn))
+                {
+                    conn.Execute(sqlQuery, sqlparam);
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
+        }
+        
         #endregion
 
         #region 刪除

@@ -42,5 +42,30 @@ namespace TobeyExamination.Controllers
             }
             return View();
         }
+
+        public ActionResult UpdEmployee(int Id)
+        {
+            var viewData = HomeDomain.GetUpdEmployee(Id);
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult UpdEmployee(UpdEmployeeViewModel param)
+        {            //表單驗證
+            if (ModelState.IsValid)
+            {
+                var Data = HomeDomain.UpdEmployee(param);
+                if (String.IsNullOrWhiteSpace(Data))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["message"] = Data;
+                    return View(param);
+                }
+            }
+            return View(param);
+        }
     }
 }

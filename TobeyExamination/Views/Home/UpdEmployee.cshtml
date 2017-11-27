@@ -1,0 +1,51 @@
+﻿@model TobeyExamination.ViewModel.UpdEmployeeViewModel
+@{
+    ViewBag.Title = "更新會員資料";
+}
+
+<h2>更新會員資料</h2>
+@if (Model !=null)
+{
+    using (Html.BeginForm("UpdEmployee", "Home", FormMethod.Post))
+    {
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Name)
+                    <span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Name, new { @Value = Model.Name})
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.EnName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.EnName, new { @Value = Model.EnName })
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="更新" /></td>
+                <td><input id="ComeBack"type="button" value="返回" /></td>
+            </tr>
+        </table>
+        <input type="hidden" name="Id" value="@Model.Id" />
+    }
+}
+<script type="text/javascript">
+    $(function(){
+        $("#ComeBack").click(function(){
+            window.location.href = "@Url.Action("Index","Home")";
+        });
+    })
+</script>
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+        var message = "@Html.Raw(TempData["message"])";
+        alert(message);
+    </script>
+}
