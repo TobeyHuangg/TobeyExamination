@@ -1,10 +1,16 @@
-﻿@model List<TobeyExamination.Models.Employee>
+﻿@model List<TobeyExamination.Models.EmployeeModel>
 @{
     ViewBag.Title = "員工基本資料查詢";
 }
 
 <h2>員工基本資料</h2>
 
+<div>
+    <ul style="list-style-type:none">
+        <li><span><a href="@Url.Action("AddEmployee","Home")">新增</a>  </span></li>
+    </ul>
+
+</div>
 @if (Model.Any())
 {
     <div>
@@ -18,8 +24,9 @@
                     <td>建立者</td>
                     <td>建立時間</td>
                     <td>更新者</td>
-                    <td>更新時間</td>
-                    @*<td>修改</td>*@
+                    <td>更新時間</td>                   
+                    @*<td></td>*@                    
+                    @*<td></td>*@
                 </tr>
             </thead>
             <tbody>
@@ -27,14 +34,15 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>index</td>
+                        <td>@index</td>
                         <td>@item.Name</td>
                         <td>@item.EnName</td>
                         <td>@item.CreateBy</td>
                         <td>@item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
                         <td>@item.UpdateBy</td>
-                        <td>@if (item.UpdateTime.HasValue) { item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss"); }</td>
+                        <td>@if (item.UpdateTime.HasValue) { item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss"); }</td>                        
                         @*<td><a href="@Url.Action("","",new { Id = item.Id})">修改</a></td>*@
+                        @*<td><a href="@Url.Action("","",new { Id = item.Id})">刪除</a></td>*@
                     </tr>
                     index++;
                 }
