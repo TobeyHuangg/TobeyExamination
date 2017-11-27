@@ -26,7 +26,7 @@
                     <td>更新者</td>
                     <td>更新時間</td>                   
                     <td></td>                   
-                    @*<td></td>*@
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
                         <td>@item.UpdateBy</td>
                         <td>@if (item.UpdateTime.HasValue) { item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss"); }</td>                        
                         <td><a href="@Url.Action("UpdEmployee","Home",new { Id = item.Id})">修改</a></td>
-                        @*<td><a href="@Url.Action("","",new { Id = item.Id})">刪除</a></td>*@
+                        <td><a href="#" onclick="DelEmployeeAjax(@item.Id);">刪除</a></td>
                     </tr>
                     index++;
                 }
@@ -50,3 +50,24 @@
         </table>
     </div>
 }
+<script type="text/javascript">
+    function DelEmployeeAjax(id) {
+        var data ={Id:id}
+        $.ajax({
+            url:'/Ajax/DelEmployee',
+            type:"POST",
+            data :JSON.stringify(data),
+            contentType :'application/json',
+            success:function(d){
+                if(d){
+                    alert("刪除成功");
+                }else{
+                    alert("刪除失敗");
+                }
+                window.location.reload();
+            }        
+        })
+    }
+
+
+</script>

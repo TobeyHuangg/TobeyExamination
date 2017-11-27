@@ -142,6 +142,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Domain\AjaxDomain.cs" />
     <Compile Include="Domain\HomeDomain.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -150,6 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
+    <Compile Include="Views\Ajax\AjaxController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

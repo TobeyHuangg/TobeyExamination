@@ -238,11 +238,42 @@ namespace TobeyExamination.Models.Repository
             }
             return result;
         }
-        
+
         #endregion
 
         #region 刪除
 
+        public static bool DelEmployee(int Id)
+        {
+            bool result = true;
+            try
+            {
+                #region 參數
+                string sqlQuery = String.Empty;
+                DynamicParameters sqlparam = new DynamicParameters();
+                sqlparam.Add("Id", Id);
+                #endregion
+
+                #region SQL 語法
+
+                sqlQuery = @"
+                            DELETE FROM Employee
+                            Where Id =@Id";
+                #endregion
+
+                #region SQL 查詢
+                using (SqlConnection conn = new SqlConnection(strConn))
+                {
+                    conn.Execute(sqlQuery, sqlparam);
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
+        }
         #endregion
     }
 }
