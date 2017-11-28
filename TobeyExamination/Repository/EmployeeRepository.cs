@@ -221,7 +221,7 @@ namespace TobeyExamination.Models.Repository
 
                 sqlQuery = @"
                             UPDATE Employee
-                            SET Name = @Name , EnName = @EnName 
+                            SET Name = @Name , EnName = @EnName ,UpdateBy='SYS',UpdateTime=GETDATE() 
                             Where Id =@Id";
                 #endregion
 

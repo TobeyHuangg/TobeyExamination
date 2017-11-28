@@ -33,6 +33,11 @@
                 @{int index = 1;}
                 @foreach (var item in Model)
                 {
+                    var update = string.Empty;
+                    if (item.UpdateTime.HasValue)
+                    {
+                        update = ((DateTime)item.UpdateTime).ToString("yyyy/MM/dd hh:mm:ss");
+                    }
                     <tr>
                         <td>@index</td>
                         <td>@item.Name</td>
@@ -40,7 +45,7 @@
                         <td>@item.CreateBy</td>
                         <td>@item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
                         <td>@item.UpdateBy</td>
-                        <td>@if (item.UpdateTime.HasValue) { item.CreateTime.ToString("yyyy/MM/dd hh:mm:ss"); }</td>                        
+                        <td>@update</td>                        
                         <td><a href="@Url.Action("UpdEmployee","Home",new { Id = item.Id})">修改</a></td>
                         <td><a href="#" onclick="DelEmployeeAjax(@item.Id);">刪除</a></td>
                     </tr>
